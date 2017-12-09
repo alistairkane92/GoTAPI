@@ -33,6 +33,8 @@ var booksRequest = function(){
     bookSelect = document.getElementById('book-select')
     populateDropDown(books, bookSelect);
     addSelectListener(bookSelect, createBook, books);
+
+
 }
 
 var populateDropDown = function(items, element){
@@ -53,7 +55,9 @@ var checkNull = function(element){
 
 var createHouse = function(index, houses){
     var ul = document.getElementById("info");
+    var pie = document.getElementById("pages-chart");
     ul.innerHTML = "";
+    pie.innerHTML = "";
 
     ul.appendChild(createLi(houses[index].name));
     ul.appendChild(createLi(houses[index].region));
@@ -83,7 +87,35 @@ var createBook = function(index, books){
     ul.appendChild(createLi("Author: " + books[index].authors));
     ul.appendChild(createLi("Publisher: " + books[index].publisher));
     ul.appendChild(createLi("Release Date: " + books[index].released));
+
+
+
+    createPieChart(books);
 }
+
+var createPieChart = function(books){
+    var pie = document.getElementById("pages-chart");
+    var titleText = "Number of Pages";
+
+    var series =[{
+        name: "Pages",
+        data: []
+    }]
+
+    for(var book of books){
+        var newBook = {
+            name: book.name,
+            y: book.numberOfPages
+        }
+
+        series[0].data.push(newBook);
+    }
+
+    var container = document.createElement("div");
+    var chart = new PieChart(titleText, container, series);
+    pie.appendChild(container);
+}
+
 
 var createLi = function(text){
     if(!checkNull(text)){
