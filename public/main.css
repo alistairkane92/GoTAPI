@@ -1,8 +1,14 @@
+body{
+    background-image: url("https://images.alphacoders.com/226/226091.jpg");
+}
+
 h1{
+    color:white;
     font-family: arial;
 }
 
 li{
+    color:white;
     list-style: none;
     font-family: helvetica;
 }

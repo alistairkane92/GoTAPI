@@ -44,7 +44,7 @@ var populateDropDown = function(items, element){
 }
 
 var checkNull = function(element){
-    if(element.length > 0 || element != null || ){
+    if(element.length > 0 || element != null){
         return false
     } else {
         return true;
