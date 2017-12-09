@@ -5,35 +5,39 @@ var makeRequest = function(url, callback){
     request.send();
 }
 
-var requestCompleted = function(){
+var housesRequest= function(){
     if(this.status != 200) return;
 
     var jsonString = this.responseText;
     var houses = JSON.parse(jsonString);
 
-    populateHousesDropDown(houses)
-
     var houseSelect = document.getElementById('house-select')
+    populateDropDown(houses, houseSelect);
+    addSelectListener(houseSelect, createHouse, houses);
 
-    houseSelect.addEventListener('change', function(){
-        var index = houseSelect.selectedIndex;
-        createHouse(index, houses);
-    })
 }
 
-var populateHousesDropDown = function(houses){
-    dropDown = document.getElementById('house-select');
+var booksRequest = function(){
+    if(this.status != 200) return;
 
-    houses.forEach(function(house){
+    var jsonString = this.responseText;
+    var books = JSON.parse(jsonString);
+
+    bookSelect = document.getElementById('book-select')
+    populateDropDown(books, bookSelect);
+    addSelectListener(bookSelect, createBook, books);
+}
+
+var populateDropDown = function(items, element){
+    items.forEach(function(item){
         var option = document.createElement('option');
-        option.innerText = house.name;
-        dropDown.appendChild(option);
+        option.innerText = item.name;
+        element.appendChild(option);
     })
-
 }
 
 var createHouse = function(index, houses){
-    var ul = document.getElementById("house-info");
+    var ul = document.getElementById("info");
     ul.innerHTML = "";
 
     ul.appendChild(createLi("Name: " + houses[index].name));
@@ -43,16 +47,35 @@ var createHouse = function(index, houses){
     ul.appendChild(createLi("Current Lord: " + houses[index].currentLord));
 }
 
+var createBook = function(index, books){
+    var ul = document.getElementById("info");
+    ul.innerHTML = "";
+
+    ul.appendChild(createLi("Author: " + books[index].authors));
+    ul.appendChild(createLi("Publisher: " + books[index].publisher));
+    ul.appendChild(createLi("Release Date: " + books[index].released));
+}
+
 var createLi = function(text){
     item =  document.createElement('li');
     item.innerText = text;
     return item;
 }
 
-var app = function(){
-    var url = "https://anapioficeandfire.com/api/houses?page=1&pageSize=50"
-    makeRequest(url, requestCompleted)
+var addSelectListener = function(element, callback, items){
+    element.addEventListener('change', function(){
+        var index = element.selectedIndex;
+        callback(index, items);
+    })
+}
 
+var app = function(){
+    housesUrl = "/houses?page=1&pageSize=50";
+    var url = "https://anapioficeandfire.com/api";
+    makeRequest(url + housesUrl, housesRequest);
+
+    bookUrl = "/books";
+    makeRequest(url + bookUrl, booksRequest);
 
 }
 
