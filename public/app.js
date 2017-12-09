@@ -5,7 +5,15 @@ var makeRequest = function(url, callback){
     request.send();
 }
 
-var housesRequest= function(){
+var characterRequest = function(){
+    if(this.status != 200) return;
+
+    var jsonString = this.responseText;
+    var characters = JSON.parse(jsonString);
+
+}
+
+var housesRequest = function(){
     if(this.status != 200) return;
 
     var jsonString = this.responseText;
@@ -14,7 +22,6 @@ var housesRequest= function(){
     var houseSelect = document.getElementById('house-select')
     populateDropDown(houses, houseSelect);
     addSelectListener(houseSelect, createHouse, houses);
-
 }
 
 var booksRequest = function(){
@@ -36,15 +43,49 @@ var populateDropDown = function(items, element){
     })
 }
 
+var checkNull = function(element){
+    if(element.length > 1){
+        return false
+    } else {
+        return true;
+    }
+}
+
 var createHouse = function(index, houses){
     var ul = document.getElementById("info");
     ul.innerHTML = "";
 
-    ul.appendChild(createLi("Name: " + houses[index].name));
-    ul.appendChild(createLi("Region: " + houses[index].region));
-    ul.appendChild(createLi("Coat Of Arms: " + houses[index].coatOfArms));
-    ul.appendChild(createLi("Motto: " + houses[index].words));
-    ul.appendChild(createLi("Current Lord: " + houses[index].currentLord));
+    if (!checkNull(houses[index].name)){
+        ul.appendChild(createLi("Name: " + houses[index].name));
+    }
+
+    if (!checkNull(houses[index].region)){
+        ul.appendChild(createLi("Region: " + houses[index].region));
+    }
+
+    if (!checkNull(houses[index].coatOfArms)){
+        ul.appendChild(createLi("Coat Of Arms: " + houses[index].coatOfArms));
+    }
+
+    if (!checkNull(houses[index].words)){
+        ul.appendChild(createLi("Motto: " + houses[index].words));
+    }
+
+    if (!checkNull(houses[index].currentLord)){
+        "Current Lord: " + makeRequest(houses[index].currentLord, getName);
+    }
+
+}
+
+var getName = function(){
+    if(this.status != 200) return;
+
+    var jsonString = this.responseText;
+    var obj = JSON.parse(jsonString);
+    var li = createLi("Current Lord: " + obj.name)
+    var ul = document.getElementById("info");
+    ul.appendChild(li)
+
 }
 
 var createBook = function(index, books){
