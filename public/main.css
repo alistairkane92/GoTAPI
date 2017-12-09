@@ -3,12 +3,26 @@ body{
 }
 
 h1{
+    font-size: 65px;
+    text-align: center;
     color:white;
     font-family: arial;
 }
 
+select{
+    text-align: center;
+}
+
+#dds{
+    display:flex;
+    justify-content: space-around;
+}
+
+
 li{
+    text-align: center;
     color:white;
     list-style: none;
     font-family: helvetica;
+    font-size: 25px;
 }

@@ -33,8 +33,6 @@ var booksRequest = function(){
     bookSelect = document.getElementById('book-select')
     populateDropDown(books, bookSelect);
     addSelectListener(bookSelect, createBook, books);
-
-
 }
 
 var populateDropDown = function(items, element){
@@ -45,26 +43,18 @@ var populateDropDown = function(items, element){
     })
 }
 
-var checkNull = function(element){
-    if(element.length > 0 || element != null){
-        return false
-    } else {
-        return true;
-    }
-}
-
 var createHouse = function(index, houses){
     var ul = document.getElementById("info");
     var pie = document.getElementById("pages-chart");
     ul.innerHTML = "";
     pie.innerHTML = "";
 
-    ul.appendChild(createLi(houses[index].name));
-    ul.appendChild(createLi(houses[index].region));
-    ul.appendChild(createLi(houses[index].coatOfArms));
-    ul.appendChild(createLi(houses[index].words));
+    ul.appendChild(createLi("Name: ", houses[index].name));
+    ul.appendChild(createLi("Region: ", houses[index].region));
+    ul.appendChild(createLi("Coat Of Arms: ", houses[index].coatOfArms));
+    ul.appendChild(createLi("Motto: ", houses[index].words));
 
-    if(!checkNull(houses[index].currentLord)){
+    if(houses[index].currentLord != ""){
         makeRequest(houses[index].currentLord, addLord);
     }
 
@@ -77,7 +67,7 @@ var addLord = function(){
     var lord = JSON.parse(jsonString);
 
     var ul = document.getElementById("info");
-    ul.appendChild(createLi(lord.name));
+    ul.appendChild(createLi("Current Lord: ", lord.name));
 }
 
 var createBook = function(index, books){
@@ -87,8 +77,6 @@ var createBook = function(index, books){
     ul.appendChild(createLi("Author: " + books[index].authors));
     ul.appendChild(createLi("Publisher: " + books[index].publisher));
     ul.appendChild(createLi("Release Date: " + books[index].released));
-
-
 
     createPieChart(books);
 }
@@ -117,10 +105,11 @@ var createPieChart = function(books){
 }
 
 
-var createLi = function(text){
-    if(!checkNull(text)){
+var createLi = function(label, text){
+    console.log(text);
+    if(text != ""){
         item = document.createElement('li');
-        item.innerText = text;
+        item.innerText = label + text;
         return item;
     }
 }
