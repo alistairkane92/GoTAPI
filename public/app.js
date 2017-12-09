@@ -72,20 +72,18 @@ var createHouse = function(index, houses){
     }
 
     if (!checkNull(houses[index].currentLord)){
-        "Current Lord: " + makeRequest(houses[index].currentLord, getName);
+        ul.appendChild(createLi(makeRequest(houses[index].currentLord, addLord)));
     }
-
 }
 
-var getName = function(){
+var addLord = function(){
     if(this.status != 200) return;
 
     var jsonString = this.responseText;
-    var obj = JSON.parse(jsonString);
-    var li = createLi("Current Lord: " + obj.name)
-    var ul = document.getElementById("info");
-    ul.appendChild(li)
+    var lord = JSON.parse(jsonString);
 
+    var ul = document.getElementById("info");
+    ul.appendChild(createLi("Current Lord: " + lord.name));
 }
 
 var createBook = function(index, books){
