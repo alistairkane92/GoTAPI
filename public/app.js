@@ -50,7 +50,7 @@ var populateHousesDropDown = function(houses){
 // }
 
 var app = function(){
-    var url = "https://anapioficeandfire.com/api/houses"
+    var url = "https://anapioficeandfire.com/api/houses?page=1&pageSize=50"
     makeRequest(url, requestCompleted)
 
     // var houseSelect = document.getElementById('#house-select')
