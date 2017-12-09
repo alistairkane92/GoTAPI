@@ -33,28 +33,20 @@ var populateHousesDropDown = function(houses){
 }
 
 var createHouse = function(index, houses){
-
     var ul = document.getElementById("house-info");
     ul.innerHTML = "";
 
-    var name = document.createElement('li');
-    var region = document.createElement('li');
-    var coatOfArms = document.createElement('li');
-    var words = document.createElement('li');
-    var currentLord = document.createElement('li');
+    ul.appendChild(createLi("Name: " + houses[index].name));
+    ul.appendChild(createLi("Region: " + houses[index].region));
+    ul.appendChild(createLi("Coat Of Arms: " + houses[index].coatOfArms));
+    ul.appendChild(createLi("Motto: " + houses[index].words));
+    ul.appendChild(createLi("Current Lord: " + houses[index].currentLord));
+}
 
-    name.innerText = houses[index].name;
-    region.innerText = houses[index].region;
-    coatOfArms.innerText = houses[index].coatOfArms;
-    words.innerText = houses[index].words;
-    currentLord.innerText = houses[index].currentLord;
-
-    ul.appendChild(name);
-    ul.appendChild(region);
-    ul.appendChild(coatOfArms);
-    ul.appendChild(words);
-    ul.appendChild(currentLord);
-
+var createLi = function(text){
+    item =  document.createElement('li');
+    item.innerText = text;
+    return item;
 }
 
 var app = function(){
