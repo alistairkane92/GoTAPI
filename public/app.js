@@ -44,7 +44,7 @@ var populateDropDown = function(items, element){
 }
 
 var checkNull = function(element){
-    if(element.length > 1){
+    if(element.length > 0 || element != null || ){
         return false
     } else {
         return true;
@@ -55,25 +55,15 @@ var createHouse = function(index, houses){
     var ul = document.getElementById("info");
     ul.innerHTML = "";
 
-    if (!checkNull(houses[index].name)){
-        ul.appendChild(createLi("Name: " + houses[index].name));
+    ul.appendChild(createLi(houses[index].name));
+    ul.appendChild(createLi(houses[index].region));
+    ul.appendChild(createLi(houses[index].coatOfArms));
+    ul.appendChild(createLi(houses[index].words));
+
+    if(!checkNull(houses[index].currentLord)){
+        makeRequest(houses[index].currentLord, addLord);
     }
 
-    if (!checkNull(houses[index].region)){
-        ul.appendChild(createLi("Region: " + houses[index].region));
-    }
-
-    if (!checkNull(houses[index].coatOfArms)){
-        ul.appendChild(createLi("Coat Of Arms: " + houses[index].coatOfArms));
-    }
-
-    if (!checkNull(houses[index].words)){
-        ul.appendChild(createLi("Motto: " + houses[index].words));
-    }
-
-    if (!checkNull(houses[index].currentLord)){
-        ul.appendChild(createLi(makeRequest(houses[index].currentLord, addLord)));
-    }
 }
 
 var addLord = function(){
@@ -83,7 +73,7 @@ var addLord = function(){
     var lord = JSON.parse(jsonString);
 
     var ul = document.getElementById("info");
-    ul.appendChild(createLi("Current Lord: " + lord.name));
+    ul.appendChild(createLi(lord.name));
 }
 
 var createBook = function(index, books){
@@ -96,9 +86,11 @@ var createBook = function(index, books){
 }
 
 var createLi = function(text){
-    item =  document.createElement('li');
-    item.innerText = text;
-    return item;
+    if(!checkNull(text)){
+        item = document.createElement('li');
+        item.innerText = text;
+        return item;
+    }
 }
 
 var addSelectListener = function(element, callback, items){
@@ -116,6 +108,8 @@ var app = function(){
     bookUrl = "/books";
     makeRequest(url + bookUrl, booksRequest);
 
+    charactersURL = "/characters";
+    makeRequest(url + charactersURL, characterRequest);
 }
 
 window.addEventListener('load', app);
