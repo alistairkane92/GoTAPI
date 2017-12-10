@@ -74,9 +74,9 @@ var createBook = function(index, books){
     var ul = document.getElementById("info");
     ul.innerHTML = "";
 
-    ul.appendChild(createLi("Author: " + books[index].authors));
-    ul.appendChild(createLi("Publisher: " + books[index].publisher));
-    ul.appendChild(createLi("Release Date: " + books[index].released));
+    ul.appendChild(createLi("Author: ", books[index].authors));
+    ul.appendChild(createLi("Publisher: ", books[index].publisher));
+    ul.appendChild(createLi("Release Date: ", books[index].released));
 
     createPieChart(books);
 }
