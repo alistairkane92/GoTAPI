@@ -58,6 +58,25 @@ var createHouse = function(index, houses){
         makeRequest(houses[index].currentLord, addLord);
     }
 
+    if(houses[index].swornMembers != ""){
+        for (var char of houses[index].swornMembers){
+            window.setTimeout(makeRequest(char, houseCharacters), 1000);
+        }
+    }
+}
+
+var houseCharacters = function(){
+    var container = document.getElementById("info");
+    if(this.status != 200) return;
+
+    var jsonString = this.responseText;
+    var char = JSON.parse(jsonString);
+    if(char.titles[0] !== ""){
+        console.log(char);
+        container.appendChild(createLi(char.titles[0] + ": ", char.name));
+    } else {
+        container.appendChild(createLi("", char.name));
+    }
 }
 
 var addLord = function(){
@@ -106,7 +125,6 @@ var createPieChart = function(books){
 
 
 var createLi = function(label, text){
-    console.log(text);
     if(text != ""){
         item = document.createElement('li');
         item.innerText = label + text;
