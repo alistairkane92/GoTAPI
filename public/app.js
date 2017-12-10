@@ -10,7 +10,6 @@ var characterRequest = function(){
 
     var jsonString = this.responseText;
     var characters = JSON.parse(jsonString);
-
 }
 
 var housesRequest = function(){
@@ -72,7 +71,14 @@ var createHouse = function(index, houses){
     }
 
     if(checkNotNull(houses[index].swornMembers != "")){
+        var title = document.createElement("div");
+        title.classList.add("li-title");
+        title.innerText = "Members:"
+
+        ul.appendChild(title);
+
         for (var char of houses[index].swornMembers){
+
             window.setTimeout(makeRequest(char, houseCharacters), 1000);
         }
     }
@@ -84,12 +90,14 @@ var houseCharacters = function(){
 
     var jsonString = this.responseText;
     var char = JSON.parse(jsonString);
+    var died = "";
 
-    var title = document.createLi(li);
-    title.innerText = "Members: ";
-    
+    if (char.died != ""){
+        died = "Died: " + char.died;
+    }
+
     if(char.titles[0] !== ""){
-        container.appendChild(createLi(char.titles[0] + ": ", char.name));
+        container.appendChild(createLi(char.titles[0] + ": ", char.name + " " + died));
     } else {
         container.appendChild(createLi("", char.name));
     }

@@ -27,3 +27,12 @@ li{
     font-size: 25px;
     padding: 2px;
 }
+
+.li-title{
+    font-family: helvetica;
+    font-style: oblique;
+    font-size: 45px;
+    color: red;
+    text-align: center;
+    padding: 30px;
+}
