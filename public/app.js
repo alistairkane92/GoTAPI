@@ -43,22 +43,35 @@ var populateDropDown = function(items, element){
     })
 }
 
+var checkNotNull = function(item){
+    if(item != ""){
+        return true;
+    }
+}
+
 var createHouse = function(index, houses){
     var ul = document.getElementById("info");
     var pie = document.getElementById("pages-chart");
     ul.innerHTML = "";
     pie.innerHTML = "";
+    console.log(houses[index]);
 
     ul.appendChild(createLi("Name: ", houses[index].name));
     ul.appendChild(createLi("Region: ", houses[index].region));
-    ul.appendChild(createLi("Coat Of Arms: ", houses[index].coatOfArms));
-    ul.appendChild(createLi("Motto: ", houses[index].words));
 
-    if(houses[index].currentLord != ""){
+    if(checkNotNull(houses[index].coatOfArms)){
+        ul.appendChild(createLi("Coat Of Arms: ", houses[index].coatOfArms));
+    }
+
+    if(checkNotNull(houses[index].words)){
+        ul.appendChild(createLi("Motto: ", houses[index].words));
+    }
+
+    if(checkNotNull(houses[index].currentLord)){
         makeRequest(houses[index].currentLord, addLord);
     }
 
-    if(houses[index].swornMembers != ""){
+    if(checkNotNull(houses[index].swornMembers != "")){
         for (var char of houses[index].swornMembers){
             window.setTimeout(makeRequest(char, houseCharacters), 1000);
         }
@@ -71,8 +84,11 @@ var houseCharacters = function(){
 
     var jsonString = this.responseText;
     var char = JSON.parse(jsonString);
+
+    var title = document.createLi(li);
+    title.innerText = "Members: ";
+    
     if(char.titles[0] !== ""){
-        console.log(char);
         container.appendChild(createLi(char.titles[0] + ": ", char.name));
     } else {
         container.appendChild(createLi("", char.name));
